@@ -1,9 +1,14 @@
 FROM node:16.10.0-alpine
 
-COPY package.json ./
+COPY pkg1/package.json /srv/pkg1/
+COPY pkg1/package-lock.json /srv/pkg1/
+RUN cd /srv/pkg1 && npm install
 
-RUN npm install
+COPY pkg2/package.json /srv/pkg2/
+COPY pkg1/package-lock.json /srv/pkg2/
+RUN cd /srv/pkg2 && npm install
 
-COPY index.js ./
+COPY testcase1.js /srv/
+COPY testcase2.js /srv/
 
-CMD ["node", "./index.js"]
+CMD ["ash", "-c", "node /srv/testcase1.js; node /srv/testcase2.js"]
