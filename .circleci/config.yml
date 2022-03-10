@@ -37,4 +37,6 @@ workflows:
   test:
     jobs:
       - checkout-install-persist
-      - test
+      - test:
+          requires:
+            - checkout-install-persist
